@@ -3,7 +3,7 @@
 local program = require "program"
 
 function main ()
-  local file = io.open("program.txt", "r")
+  local file = assert(io.open("program.txt", "r"))
   local progstr = file:read("l")
   file:close()
 

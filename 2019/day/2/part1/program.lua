@@ -1,3 +1,7 @@
+-- HINT: Indexes in Lua arrays start with 1! However, this puzzle assumes
+-- working with indizes starting with 0. Therefore the index is adapted at
+-- specific key lines.
+
 local M = {}
 
 local function tointcode(progstr)
@@ -18,7 +22,8 @@ function M:new (progstr)
   return t
 end
 
-function M:__stepforward ()
+-- Smells like private method
+function M:stepforward_ ()
   self.pos = self.pos + 1
   io.write(string.format("Set new position to %d\n", self.pos - 1))
 end
@@ -26,7 +31,7 @@ end
 function M:nextopcode ()
   local opcode = self.intcode[self.pos]
   io.write(string.format("Read opcode %d at position %d\n", opcode, self.pos - 1))
-  self:__stepforward()
+  self:stepforward_()
   return opcode
 end
 
@@ -34,14 +39,14 @@ function M:nextval ()
   local pos = self.intcode[self.pos] + 1
   local val = self.intcode[pos]
   io.write(string.format("Read value %d at position %d\n", val, pos - 1))
-  self:__stepforward()
+  self:stepforward_()
   return val
 end
 
 function M:nextstore ()
   local pos = self.intcode[self.pos] + 1
   io.write(string.format("Read store position %d\n", pos - 1))
-  self:__stepforward()
+  self:stepforward_()
   return pos
 end
 
